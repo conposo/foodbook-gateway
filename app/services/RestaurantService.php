@@ -20,9 +20,9 @@ class RestaurantService
         return $this->performRequest('POST', "newrestaurant", $data);
     }
 
-    public function obtainRestaurant($slug)
+    public function obtainRestaurant($slug_or_id)
     {
-        return $this->performRequest('GET', "/restaurant/{$slug}");
+        return $this->performRequest('GET', "/restaurant/{$slug_or_id}");
     }
 
     public function obtainRestaurantsByLocation($latlng, $radius)

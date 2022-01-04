@@ -40,14 +40,15 @@ class SetDate
                 $date = $request->cookie('date');
             }
         }
-        // setlocale(LC_ALL, 'bg_BG.UTF-8');
+
+        setlocale(LC_ALL, 'bg_BG.UTF-8');
         $GLOBALS['date'] = $date;
-        $GLOBALS['tomorrow'] = new \DateTime('tomorrow');
+        $GLOBALS['tomorrow'] = Carbon::tomorrow();
         $GLOBALS['yesterday'] = date('Y-m-d', strtotime('yesterday'));
         $GLOBALS['today'] = date('Y-m-d', strtotime('today'));
         $GLOBALS['today_formatted'] = strftime("%A", strtotime('today'));
         $GLOBALS['date_formatted'] = strftime("%A %d %B", strtotime($date));
-        // dd($GLOBALS['date_formatted'], \App::getLocale());
+        // dd($GLOBALS['date'], \App::getLocale());
 
         $_date = new \DateTime($date);
         $day = $_date->format("d");

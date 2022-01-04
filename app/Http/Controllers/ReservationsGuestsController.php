@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Services\ReservationGuestService;
+use App\Models\User;
 
 class ReservationsGuestsController extends Controller
 {
@@ -20,7 +21,7 @@ class ReservationsGuestsController extends Controller
     {
         if( !isset($request->guest_type) ) $request->guest_type = 'GUEST' ;
 
-        $user = \App\User::where('email', $request['user_email'])->first();
+        $user = User::where('email', $request['user_email'])->first();
         if( is_null($user) ) return back()->with('flash-message','Такъв потребител не съществува!');  
 
         $data = $request->except('_token', 'user_email');
@@ -37,7 +38,7 @@ class ReservationsGuestsController extends Controller
     {
         if($request->user_email)
         {
-            $user = \App\User::where('email', $request['user_email'])->first();
+            $user = User::where('email', $request['user_email'])->first();
             if( is_null($user) ) return back()->with('flash-message','Такъв потребител не съществува!');  
             $data['user_id'] = $user->id;
         }

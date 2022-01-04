@@ -37,7 +37,7 @@
     $collect_household_members_data = $household_members->where('user_id', '<>', $current_user['id']);
     $household_members_user_ids = $collect_household_members_data->pluck('user_id')->toArray();
     $household_members = $collect_household_members_data->toArray();
-    $household_members_user_data = \App\User::find($household_members_user_ids);
+    $household_members_user_data = \App\Models\User::find($household_members_user_ids);
     // dd( $household, $household_members, $household_members_user_data );
     ?>
     <div class="mb-3 mb-md-5 px-3 px-md-5 py-2 border" style="background: #f5f6f7;">
@@ -51,7 +51,7 @@
                     @if($current_user_status == 'PENDING')
                         Присъедини се към
                     @endif
-                    {{$household['name']}}
+                    <span class="d-block text-uppercase">{{$household['name']}}</span>
                 </h5>
             @endif
             <label class="d-none">Ти</label>
@@ -59,8 +59,8 @@
                 <span class="d-flex align-items-center" style="opacity:{{ ($current_user_status == 'PENDING') ? '0.5' : '' }};">
                     <img class="rounded-circle shadow-sm mr-2" src="https://www.countryfincas.com/images/testimonial_photos/testimonial_placeholder.jpg" alt="">
                     <span>
-                        <h6 class="m-0 h5 font-weight-normal">{{$current_user->first_name}}</h6>
-                        <small class="d-block _font-weight-bold" style="font-size: 12px; opacity: 0.5;">{{$current_user_type}}</small>
+                        <h6 class="m-0 h5 font-weight-normal text-uppercase">{{$current_user->first_name}}</h6>
+                        <small class="d-block" style="font-size: 12px; opacity: 0.5;">{{$current_user_type}}</small>
                     </span>
                 </span>
                 <div class="d-flex align-items-end flex-column text-right">

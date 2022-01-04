@@ -14,7 +14,7 @@
 
         <h6 class="mx-3 text-uppercase">
             <a class="text-black-50"
-                href="{{route('category', ['name' => $category['slug']])}}">
+                href="{{route('category', ['category_name' => $category['slug']])}}">
                 <b>{{$category['bg_name']}}</b>
                 <i class="fas fa-external-link-alt" style="font-size: 12px;top: -20px;left: -5px;position: relative;"></i>
             </a>

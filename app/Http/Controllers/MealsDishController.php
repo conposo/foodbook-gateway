@@ -12,7 +12,7 @@ class MealsDishController extends Controller
 {
     protected $mealService;
 
-    public function __construct(Request $request, MealService $mealService)
+    public function __construct(MealService $mealService)
     {
         $this->mealService = $mealService;
 
@@ -46,8 +46,8 @@ class MealsDishController extends Controller
         $data['time'] = $this->time;
         $data['user_type'] = $this->user_type;
         $data['user_type_id'] = $this->user_type_id;
-        // dd($data);
         $_response = $this->mealService->postDishToMeal($data);
+        // dd($_response);
         if($_response)
         {
             $user_type_redierect = ($this->user_type == 'user') ? ['user_type' => 'user']: [];

@@ -15,9 +15,9 @@ class HouseholdService
         $this->baseUri = config('services.household.base_uri');
     }
 
-    public function obtainHousehold($user_id)
+    public function obtainHousehold($household_id)
     {
-        return $this->performRequest('GET', "household/{$user_id}");
+        return $this->performRequest('GET', "household/{$household_id}");
     }
 
     public function obtainHouseholdMemberByUserID($user_id)

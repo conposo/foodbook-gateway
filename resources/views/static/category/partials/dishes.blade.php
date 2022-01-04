@@ -33,9 +33,9 @@
         // dd($dish);
         $dish_id = $dish['id'];
         ?>
-        <div class="item d-block px-2 position-relative" style="background-image: url('/images/other/foodbook.png'); background-size: 80%; background-repeat: no-repeat; background-position: center;">
+        <div class="item d-block px-2 position-relative" style="background-image: url('/storage/images/other/foodbook.png'); background-size: 80%; background-repeat: no-repeat; background-position: center;">
             <div class="_bg owl-lazy position-relative d-flex-column _justify-content-between align-items-center mx-3"
-                data-src="/images/dishes/{{$dish['slug']}}/main.jpeg">
+                data-src="/storage/images/dishes/{{$dish['slug']}}/main.jpeg">
                 <a class="position-absolute d-flex align-items-end" href="{{ route('dish', $dish['slug']) }}">
                     <i class="fas fa-external-link-alt"></i>
                     <span class="position-relative px-1 py-1 w-100 _pb-5 bg_name">

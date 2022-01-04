@@ -62,12 +62,12 @@ $(document).ready(function() {
                     <?php $dishes = $menu_collection->where('category_slug', $category)->toArray() ?>
                     
                     @foreach($dishes as $dish)
-                        <?php //dd($dish) ?>
+                        <?php $dish = collect($dish)->toArray(); ?>
 
                         <div class="d-flex justify-content-center align-items-center position-relative mb-3 rounded dish text-center"
                                 style="_background-size:cover; _background-image:url('/images/restaurants/{{ $restaurant['slug'] }}/main.jpeg')">
 
-                            <a class="ml-4 d-block _pt-2" href="{{ route('dish', $dish['dish_id']) }}">
+                            <a class="ml-4 d-block _pt-2" href="#{{ route('dish', $dish['dish_id'] ? $dish['dish_id'] : $dish['id']) }}">
                                 <span class="d-block py-0">{{ $dish['dish_name'] }}</span>
                             </a>
                             <span class="ml-1" style="color:brown; font-size:1rem;">

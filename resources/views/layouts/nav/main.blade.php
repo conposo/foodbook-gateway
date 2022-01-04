@@ -29,7 +29,7 @@
 
         <a class="m-0 d-block navbar-brand text-center" href="{{ url('/') }}{{ (isset($isHousehold) && $isHousehold)? '?household=true': ''}}" style="font-size:42px;line-height:42px;">
             <div class="mx-auto" style="overflow:hidden; width:205px;">
-                <img class="d-block" src="/images/other/logo.png" alt="Foodbook Logo" style="max-width:100%; _margin-top:-25px; _margin-bottom:-20px;">
+                <img class="d-block" src="/storage/images/other/logo.png" alt="Foodbook Logo" style="max-width:100%; _margin-top:-25px; _margin-bottom:-20px;">
             </div>
             <span class="d-none">
                 <span style="font-weight:300;">food</span><span style="font-weight:500;">book</span>

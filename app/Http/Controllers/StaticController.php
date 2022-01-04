@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -134,6 +135,7 @@ class StaticController extends Controller
         $data = [];
         $exploded_slug = explode('-', $slug);
         $last_part = array_pop($exploded_slug);
+
         if( !is_numeric($slug) && is_numeric($last_part) )
         {
             $dish = $this->dishService->obtainByTypeAndId('P', $slug);
@@ -160,36 +162,30 @@ class StaticController extends Controller
             // dd($data['data']['owner_id'] != Auth::id());
             $data['restaurants'] = [];
         }
-        else // teh slug is string && dish_type is S
+        else // slug is string && dish_type is S
         {
             $dish = $this->dishService->obtainDish($slug);
             $dish = json_decode($dish, true);
-            // if( isset($dish['slug']) )
-            // {
-            //     $slug = $dish['slug'];
-            // }
 
             $data['restaurants'] = collect([]);
-            // dd($dish);
 
             if( isset($dish['restaurants']) )
             {
                 // get restaurants & set $data['restaurants']
                 $restaurants_ids = collect($dish['restaurants'])->pluck('restaurant_id')->toArray();
-                $restaurants = $this->restaurantService->obtainByIDs($restaurants_ids, \Cookie::get('city'));
+                $restaurants = $this->restaurantService->obtainByIDs($restaurants_ids, Cookie::get('city'));
 
-
-                $radius = \Cookie::get('range');
-                $latlng = \Cookie::get('lat').'|'.\Cookie::get('long');
-                $restaurants = $this->restaurantService->obtainRestaurantsByLocation($latlng, $radius);
+                if (Cookie::get('range') && Cookie::get('lat') && Cookie::get('long')) {
+                    $radius = Cookie::get('range');
+                    $latlng = Cookie::get('lat').'|'.Cookie::get('long');
+                    $restaurants = $this->restaurantService->obtainRestaurantsByLocation($latlng, $radius);
+                }
                 if( json_decode($restaurants) && isset(json_decode($restaurants)->data) )
                 {
                     $restaurants = collect(json_decode($restaurants)->data);
                     $data['restaurants'] = $restaurants;
                 }
-                // dd($dish, $slug, $restaurants);
             }
-            // dd($dish, $slug);
             $data['data'] = $dish;
         }
 
@@ -203,6 +199,8 @@ class StaticController extends Controller
             }
             $data['dish_pictures'] = $dish_pictures;
         endif;
+        
+        // dd($data);
 
         return view('static.dish.single.index', $data);
     }

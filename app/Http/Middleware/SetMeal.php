@@ -49,7 +49,6 @@ class SetMeal
             $GLOBALS['meal'] = Cookie::get( 'meal');
         }
 
-        // dd( $GLOBALS['meal'] );
         $time = '05:00';
 
         // switch( Cookie::get( 'meal') )

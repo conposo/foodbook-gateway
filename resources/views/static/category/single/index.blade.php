@@ -11,6 +11,11 @@
         // dd($B_dishes);
         ?>
 
+<style>
+            .owl-carousel .owl-item .owl-lazy {
+                opacity: 1 !important;
+            }
+        </style>
         @if($B_dishes->isNotEmpty())
             <div class="row mt-5">
                 <div class="col col-md-5 mx-auto d-flex justify-content-between align-items-end">

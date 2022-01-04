@@ -1,12 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\MealsController;
+use App\Http\Controllers\MealsDishController;
 
 use App\Http\Controllers\DishController;
+use App\Http\Controllers\DishUserController;
+
+use App\Http\Controllers\SettingsController;
 
 use App\Http\Controllers\StaticController;
+
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListItemsController;
+
+use App\Http\Controllers\ReservationsController;
+
+use App\Http\Controllers\HouseholdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +33,24 @@ use App\Http\Controllers\StaticController;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Static Web Routes
+|--------------------------------------------------------------------------
+*/
+
+Auth::routes(['verify', true]);
+Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+Route::get('category/{category_name}', [StaticController::class, 'category'])->name('category');
+Route::get('dish/{slug}', [StaticController::class, 'dish'])->name('dish');
+Route::get('restaurant/{slug}', [StaticController::class, 'restaurant'])->name('restaurant');
+
+Route::get('/logout', [Auth\LoginController::class, 'logout'])->name('logout' );
+
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -26,6 +58,7 @@ use App\Http\Controllers\StaticController;
 Route::middleware(['auth'])->group(function () {
         
     Route::get('/', [MealsController::class, 'index'])->name('home');
+    Route::get('/menu', [HomeController::class, 'menu'])->name('menu');
 
     Route::get('breakfast', [MealsController::class, 'getMeal'])->name('breakfast');
     Route::get('lunch', [MealsController::class, 'getMeal'])->name('lunch');
@@ -128,21 +161,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('restaurant/{slug}/tables/{table}', [RestaurantReservationsController::class, 'table'])->name('restaurant-table');
 
 });
-
-/*
-|--------------------------------------------------------------------------
-| Static Web Routes
-|--------------------------------------------------------------------------
-*/
-
-Auth::routes(['verify', true]);
-
-Route::get('category/{category_name}', [StaticController::class, 'category'])->name('category');
-Route::get('dish/{slug}', [StaticController::class, 'dish'])->name('dish');
-Route::get('restaurant/{slug}', [StaticController::class, 'restaurant'])->name('restaurant');
-
-Route::get('/logout', [Auth\LoginController::class, 'logout'])->name('logout' );
-
 
 /*
 |--------------------------------------------------------------------------

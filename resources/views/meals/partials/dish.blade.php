@@ -8,10 +8,10 @@ $ingredients = false;
             max-height: 1000px;
             background-size: cover;
             background-position: center center;
-            background-image: url('/images/dishes/{{$dish['slug']}}/main.jpeg');
+            background-image: url('/storage/images/dishes/{{$dish['slug']}}/main.jpeg');
             <?= !!!$ingredients ? 'white-space: nowrap;': '' ?>
             "
-        data-src="/images/dishes/{{$dish['slug']}}/main.jpeg">
+        data-src="/storage/images/dishes/{{$dish['slug']}}/main.jpeg">
     <span id="_{{$dish['id']}}" class="_bg w-100 px-2 px-md-5 pb-2 pb-md-5 dish_row d-flex flex-column justify-content-between align-items-center">
         <a href="{{ route('dish', $dish['slug']) }}"
             class="position-relative w-100 text-center"

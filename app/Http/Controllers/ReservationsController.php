@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\User;
+use App\Models\User;
 
 use App\Services\ReservationService;
 use App\Services\RestaurantService;
@@ -41,8 +41,10 @@ class ReservationsController extends Controller
         $this->user_id = Auth::id();
         if($reservation = $this->reservationService->obtainReservation($id))
         {
+            $reservation = json_decode($reservation, true);
+        } else {
+            return;
         }
-        $reservation = json_decode($reservation, true);
 
         $reservation_guests = collect($reservation['data']['guests']);
         $reservation['current_user_guest_data'] = $reservation_guests->where('user_id', $this->user_id)->first();
@@ -59,11 +61,14 @@ class ReservationsController extends Controller
             $reservation['other_guests'] = collect($other_guests);
             $reservation['other_guests_data'] = $other_guests_data->toArray();
     
-            $restaurant = $this->restaurantService->obtainByIDs([$reservation['data']['restaurant_id']]);
+             $restaurant  = $this->restaurantService->obtainRestaurant($reservation['data']['restaurant_id']);
+            if( json_decode($restaurant)->data )
+            {
+                $reservation['restaurant'] = collect( json_decode($restaurant)->data )->toArray(); //collect( json_decode($restaurant, true)->data )->first();
+            }
             // $restaurant = $this->restaurantService->obtainByIDs([1]);
             
-            $reservation['restaurant'] = collect( json_decode($restaurant, true)['data'] )->first();
-            // dd($reservation['current_user_guest_data']);
+            // dd( $reservation );
             return view('reservation.single.index', $reservation);
         }
         else return redirect()->route('home');
@@ -89,9 +94,13 @@ class ReservationsController extends Controller
         // dd($data, $request->all(), $request['user_id']);
         $new_reservation = $this->reservationService->post($data);
         $data = json_decode($new_reservation, true);
-        // dd($data['data']['id']);
+        if($data)
+        {
+            return redirect()->route('reservation', $id = $data['data']['id']);
+        } else {
+            return view('reservation.failed');
+        }
 
-        return redirect()->route('reservation', $id = $data['data']['id']);
     }
 
     public function update(Request $request, $id)

@@ -8,15 +8,14 @@ use GuzzleHttp\Exception\RequestException;
 
 trait ConsumeService
 {
-    public function performRequest($method, $requestUri, $formParams = [], $headers = [])
+    public function performRequest($method, $requestUri, $data = [], $headers = [])
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
 
         try {
-            // dd($formParams);
-            $response = $client->request($method, $requestUri, ['form_params' => $formParams, 'headers' => $headers]);
+            $response = $client->request($method, $requestUri, ['form_params' => $data, 'headers' => $headers]);
             return $response->getBody()->getContents();
         } catch (RequestException $e) {
             // echo( Psr7\str($e->getRequest()) );

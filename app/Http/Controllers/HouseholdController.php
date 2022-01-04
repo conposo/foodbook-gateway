@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User;
+use App\Models\User;
 use Auth;
 
 use App\Services\HouseholdService;
@@ -34,25 +34,24 @@ class HouseholdController extends Controller
     {
         $this->data['current_user'] = User::where('id', $this->user_id)->first();
         $_user_member_roles = $this->householdService->obtainHouseholdMemberByUserID($this->user_id);
+        $this->current_user_member_roles = collect( json_decode( $_user_member_roles, true ) );
         $this->current_user_member_roles = collect( json_decode( $_user_member_roles, true )['data'] );
-        // dd( collect( json_decode( $_user_member_roles, true )['data'] )->sortBy('updated_at')->last() );
-
-        if(!is_null($this->current_user_member_roles))
+        // dd($this->current_user_member_roles);
+        if( ! $this->current_user_member_roles->isEmpty() )
         {
-            $_current_user_household_id = $this->current_user_member_roles->where('user_type', 'ORGANIZER')->first()['household_id'];
+            $_current_user_household_id = $this->current_user_member_roles->first()['household_id'];
             if(is_null($_current_user_household_id))
             {
-                $_current_user_household_id = $this->current_user_member_roles->first()['household_id'];
+                $current_user_household = $this->current_user_member_roles->where('user_type', 'ORGANIZER')->first();
             }
-            if(!is_null($_current_user_household_id))
+            else
             {
                 $current_user_household = collect( json_decode( $this->householdService->obtainHousehold($_current_user_household_id), true )['data'] );
-                $this->data['household'] = $current_user_household;
             }
+            $this->data['household'] = $current_user_household;
             $current_user_guest = $this->current_user_member_roles->where('user_type', 'GUEST');
             $this->data['current_user_guest'] = $current_user_guest;
         }
-
         // dd( $this->data['household']['members'] );
         return view('household.index', $this->data);
     }

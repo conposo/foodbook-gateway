@@ -1,7 +1,9 @@
 <?php
 // dd($current_user_guest_data);
 $user_guest_menu_dishes_ids = collect($current_user_guest_data['menu'])->pluck('dish_id')->toArray();
-$dishes_from_restaurant = collect($restaurant['menu'])->whereIn('dish_id', $user_guest_menu_dishes_ids);
+if (isset($restaurant['menu'])) {
+    $dishes_from_restaurant = collect($restaurant['menu'])->whereIn('dish_id', $user_guest_menu_dishes_ids);
+}
 ?>
     <div class=" mb-2 pb-3 d-flex-column d-lg-flex justify-content-between align-items-center w-100 border-bottom font-weight-normal">
         <span class="h5 font-weight-normal">

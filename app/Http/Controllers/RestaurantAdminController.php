@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-use App\User;
+use App\Models\User;
 use App\Services\RestaurantService;
 use App\Services\DishService;
 
